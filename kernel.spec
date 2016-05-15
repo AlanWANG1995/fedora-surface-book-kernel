@@ -24,7 +24,7 @@ Summary: The Linux kernel
 %global zipsed -e 's/\.ko$/\.ko.xz/'
 %endif
 
-# define buildid .local
+%define buildid .surfacebook
 
 # baserelease defines which build revision of this kernel version we're
 # building.  We used to call this fedora_build, but the magical name
@@ -42,7 +42,7 @@ Summary: The Linux kernel
 # For non-released -rc kernels, this will be appended after the rcX and
 # gitX tags, so a 3 here would become part of release "0.rcX.gitX.3"
 #
-%global baserelease 300
+%global baserelease 399
 %global fedora_build %{baserelease}
 
 # base_sublevel is the kernel version we're starting with and patching
@@ -494,6 +494,12 @@ Source5005: kbuild-AFTER_LINK.patch
 %if !%{nopatches}
 
 # Git trees.
+
+# Microsoft Surface
+Patch9996: HID-multitouch-Ignore-invalid-reports.patch
+Patch9997: HID-multitouch-Add-MT_QUIRK_NOT_SEEN_MEANS_UP-to-MT_.patch
+Patch9998: Add-multitouch-support-for-Microsoft-Type-Cover-3.patch
+Patch9999: Microsoft-Surface-Pro-4-Surface-Book-camera-support.patch
 
 # Standalone patches
 Patch420: arm64-avoid-needing-console-to-enable-serial-console.patch
@@ -1193,8 +1199,8 @@ if [ ! -d kernel-%{kversion}%{?dist}/vanilla-%{vanillaversion} ]; then
 %endif
 %endif
     git init
-    git config user.email "kernel-team@fedoraproject.org"
-    git config user.name "Fedora Kernel Team"
+    git config user.email "hein@kde.org"
+    git config user.name "Eike Hein"
     git config gc.auto 0
     git add .
     git commit -a -q -m "baseline"
@@ -1218,8 +1224,8 @@ cp -al vanilla-%{vanillaversion} linux-%{KVERREL}
 cd linux-%{KVERREL}
 if [ ! -d .git ]; then
     git init
-    git config user.email "kernel-team@fedoraproject.org"
-    git config user.name "Fedora Kernel Team"
+    git config user.email "hein@kde.org"
+    git config user.name "Eike Hein"
     git config gc.auto 0
     git add .
     git commit -a -q -m "baseline"
